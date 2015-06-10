@@ -3,9 +3,9 @@
   try {
     module = angular.module('awelzijn.helper-http');
   } catch (e) {
-    module = angular.module('awelzijn.helper-http', ['$http', '$q', '$rootScope', 'aWelzijnBase64Encoding', 'aWelzijnNotificationService']);
+    module = angular.module('awelzijn.helper-http', []);
   }
-  module.factory('awelzijnHelperHttp', [function ($http, $q, $rootScope, Base64, notificationService) {
+  module.factory('awelzijnHelperHttp', ['$http', '$q', '$rootScope', 'aWelzijnBase64Encoding', 'aWelzijnNotificationService', function ($http, $q, $rootScope, Base64, notificationService) {
           function createServiceCall(httpVerb, requesturl, options, data) {
 			var deferred = $q.defer();
 
