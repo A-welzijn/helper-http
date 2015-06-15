@@ -1,38 +1,76 @@
-# Tink skeleton Angular directive
+# A-Welzijn Helper-Http
 
-v1.0.1
+v1.0.2
 
-## What is this repository for?
+### Hoe het te gebruiken
 
-The Tink Angular skeleton provides a scaffold for a directive or service that can easily work with Tink.
+```javascript
+"dependencies": {
+	"awelzijn-helper-http": "latest"
+ }
+```
+```javascript
+var app = angular.module('yourApp', [
+	'awelzijn.helperhttp'
+]);
+```
 
-Tink is an in-house developed easy-to-use front end framework for quick prototyping and simple deployment of all kinds of websites and apps, keeping a uniform and consistent look and feel.
+Je injecteert de service in je controller
+```javascript
+var controller = function (httphelper) {...}
+controller.$inject = ['aWelzijnHelperHttp'];
+```
 
-## Setup
+Je gebruikt de volgende methodes
+```javascript
+httphelper.get(url);
+httphelper.post(url, data);
+httphelper.put(url, data);
+httphelper.delete(url);
+```
 
-### Prerequisites
+Voor deze calls kan je een object meegeven met bepaalde opties.
 
-* nodeJS [http://nodejs.org/download/](http://nodejs.org/download/)
-* bower: `npm install -g bower`
+####Params
 
-### Install
+```javascript
+var options = { params: { id: 999, titel:'test' } };
+return httphelper.get('https://test.com', options);
+ ```
+ Voert een GET request uit naar de url `https://test.com?id=999&titel=test`
 
-1. Go to the root of your project and type the following command in your terminal:
-   `bower install tink-back-to-top-angular --save`
+####Transform
 
-2. Include `dist/tink-back-to-top-angular.js` and its necessary dependencies in your project.
+```javascript
+			var options = {
+				transform: function (response) {
+					var personen = [];
 
-3. On http://tink.digipolis.be you will find all necessary documentation.
+					angular.forEach(response.list, function (persoon) {
+						personen.push({
+							id: persoon.id,
+							naam:persoon.naam + ' ' + persoon.voornaam
+						});
+					});
+					return personen;
+				}
+			};
+```
+Dit is een tussenstap om data van een externe bron te vertalen naar een object die de controller beter begrijpt.
+Het `response` object dat binnekomt is het antwoord van de http call, de `return` in de transform komt binnen in de controller die deze methode heeft aangesproken.
+ 
+ 
+####Error handling
 
-## Contribution guidelines
+Indien er een fout optreedt tijdens de call worden deze automatisch afgehandeld en wordt de gebruiker hiervan op de hoogte gebracht met een [notification-callout](https://github.com/A-welzijn/notification-callout)
+via de [notification-service](https://github.com/A-welzijn/notification-service).
+Optioneel kan je zelf ook errors opvangen en afhandelen.
 
-* If you're not sure, drop us a note
-* Fork this repo
-* Do your thing
-* Create a pull request
-
-## Who do I talk to?
-
-* Jasper Van Proeyen - jasper.vanproeyen@digipolis.be - Lead front-end
-* Tom Wuyts - tom.wuyts@digipolis.be - Lead UX
-* [The hand](https://www.youtube.com/watch?v=_O-QqC9yM28)
+```javascript
+ctrl.loading = true;
+service.get(id).then(function (response) {
+						ctrl.data = response;
+					}).finally(function () {
+						ctrl.loading = false;
+					});
+```
