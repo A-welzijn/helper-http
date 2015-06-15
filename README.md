@@ -1,6 +1,6 @@
 # A-Welzijn Helper-Http
 
-v1.0.2
+v1.0.3
 
 ### Hoe het te gebruiken
 
@@ -42,19 +42,18 @@ return httphelper.get('https://test.com', options);
 ####Transform
 
 ```javascript
-			var options = {
-				transform: function (response) {
-					var personen = [];
-
-					angular.forEach(response.list, function (persoon) {
-						personen.push({
-							id: persoon.id,
-							naam:persoon.naam + ' ' + persoon.voornaam
-						});
-					});
-					return personen;
-				}
-			};
+var options = {
+    transform: function (response) {
+        var personen = [];   
+        angular.forEach(response.list, function (persoon) {
+            personen.push({
+                id: persoon.id,
+                naam:persoon.naam + ' ' + persoon.voornaam
+            });
+        });
+        return personen;
+    }
+};
 ```
 Dit is een tussenstap om data van een externe bron te vertalen naar een object die de controller beter begrijpt.
 Het `response` object dat binnekomt is het antwoord van de http call, de `return` in de transform komt binnen in de controller die deze methode heeft aangesproken.
@@ -69,8 +68,8 @@ Optioneel kan je zelf ook errors opvangen en afhandelen.
 ```javascript
 ctrl.loading = true;
 service.get(id).then(function (response) {
-						ctrl.data = response;
-					}).finally(function () {
-						ctrl.loading = false;
-					});
+    ctrl.data = response;
+}).finally(function () {
+    ctrl.loading = false;
+});
 ```
