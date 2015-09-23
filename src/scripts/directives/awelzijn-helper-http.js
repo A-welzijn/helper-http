@@ -20,7 +20,7 @@
 				}).
 				error(function (data, status, headers, config, statusText) {
 					notificationService.createErrorMessages(data, status, requesturl);
-					deferred.reject();
+					deferred.reject(data);
 				});
 			return deferred.promise;
 		};
