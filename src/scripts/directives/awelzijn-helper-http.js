@@ -19,7 +19,7 @@
 					deferred.resolve(data);
 				}).
 				error(function (data, status, headers, config, statusText) {
-					notificationService.createErrorMessages(data, status, requesturl);
+					if(!options.ignoreErrors) { notificationService.createErrorMessages(data, status, requesturl); }
 					deferred.reject(data);
 				});
 			return deferred.promise;

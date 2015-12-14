@@ -46,11 +46,6 @@ module.exports = function (grunt) {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
-      sass: {
-        // files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['sass:server', 'autoprefixer']
-      },
       html: {
         files: ['<%= yeoman.app %>/templates/{,*/}*.{htm,html}'],
         tasks: ['ngtemplates']
@@ -211,36 +206,6 @@ module.exports = function (grunt) {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath: /\.\.\//
-      },
-      sass: {
-        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        ignorePath: /(\.\.\/){1,2}bower_components\//
-      }
-    },
-    sass: {
-      options: {
-        imagePath:'../images',
-        includePaths: [
-            'bower_components'
-        ]
-      },
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/styles',
-          src: ['*.scss'],
-          dest: '.tmp/styles',
-          ext: '.css'
-        }]
-      },
-      server: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.app %>/styles',
-          src: ['*.scss'],
-          dest: '.tmp/styles',
-          ext: '.css'
-        }]
       }
     },
     copy: {
@@ -306,14 +271,12 @@ module.exports = function (grunt) {
     },
     concurrent: {
       server: [
-        'sass:server',
         'copy:styles'
       ],
       test: [
         'copy:styles'
       ],
       dist: [
-        'sass',
         'svgmin'
       ]
     },
